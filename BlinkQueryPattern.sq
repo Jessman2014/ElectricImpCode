@@ -1,0 +1,51 @@
+//***** AGENT CODE ******
+// Log the URLs we need
+server.log("Turn LED On: " + http.agenturl() + "?pattern=1");
+ 
+function requestHandler(request, response) {
+  try {
+    // check if the user sent pattern as a query parameter
+    if ("pattern" in request.query) {
+      
+      // if they did send Pattern as the data
+        server.log("Pattern is: " + request.query.pattern);
+        device.send("pattern", request.query.pattern);
+    }
+    // send a response back saying everything was OK.
+    response.send(200, "OK");
+  } catch (ex) {
+    response.send(500, "Internal Server Error: " + ex);
+  }
+}
+ 
+// register the HTTP handler
+http.onrequest(requestHandler);
+
+
+
+//**** DEVICE CODE ******
+// create a global variabled called led, 
+// and assign pin9 to it
+led <- hardware.pin9;
+ 
+// configure led to be a digital output
+led.configure(DIGITAL_OUT);
+ 
+// function to turn LED on or off
+function setLed(Pattern) {
+    foreach(i,val in Pattern) { 
+ // i is the index in the string and val is the character at that index
+        if (Pattern[i] == 49) {
+            server.log("Set LED on");
+            led.write(1);
+        }
+        if (Pattern[i] == 48) {
+            server.log("Set LED off");
+            led.write(0);
+        }
+        imp.sleep(0.1);
+    }
+}
+ 
+// register a handler for "led" messages from the agent
+agent.on("pattern", setLed);
