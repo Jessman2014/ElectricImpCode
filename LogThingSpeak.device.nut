@@ -1,4 +1,4 @@
-
+//Reads luminosity, logs it to the uart screen, and logs it to thingSpeak
 function convertLux(reg0, reg1) {
 
     local ch0 = ((reg0[1] & 0xFF) << 8) + (reg0[0] & 0xFF);

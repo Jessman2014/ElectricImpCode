@@ -1,4 +1,4 @@
-
+//Takes the message from the url query and logs it to the uart screen
 function writeLCD() {
     //imp.wakeup(5.0, writeLCD);
     server.log("writing");

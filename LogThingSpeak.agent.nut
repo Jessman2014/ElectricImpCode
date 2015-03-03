@@ -1,3 +1,4 @@
+//Reads luminosity and logs it to thingSpeak
 local thingSpeakUrl = "http://api.thingspeak.com/update";
 
 local headers = {
